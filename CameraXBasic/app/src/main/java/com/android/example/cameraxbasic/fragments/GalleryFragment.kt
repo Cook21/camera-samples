@@ -27,6 +27,7 @@ import java.io.File
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.os.Build
+import android.view.ScaleGestureDetector
 import android.webkit.MimeTypeMap
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -50,6 +51,7 @@ class GalleryFragment internal constructor() : Fragment() {
     private val args: GalleryFragmentArgs by navArgs()
 
     private lateinit var mediaList: MutableList<File>
+    private  lateinit var scaleDetector:ScaleGestureDetector
 
     /** Adapter class used to present a fragment containing one photo or video as a page */
     inner class MediaPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -93,7 +95,10 @@ class GalleryFragment internal constructor() : Fragment() {
         val mediaViewPager = view.findViewById<ViewPager>(R.id.photo_view_pager).apply {
             offscreenPageLimit = 2
             adapter = MediaPagerAdapter(childFragmentManager)
+
         }
+
+
 
         // Make sure that the cutout "safe area" avoids the screen notch if any
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
