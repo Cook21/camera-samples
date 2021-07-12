@@ -51,7 +51,6 @@ class GalleryFragment internal constructor() : Fragment() {
     private val args: GalleryFragmentArgs by navArgs()
 
     private lateinit var mediaList: MutableList<File>
-    private  lateinit var scaleDetector:ScaleGestureDetector
 
     /** Adapter class used to present a fragment containing one photo or video as a page */
     inner class MediaPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
