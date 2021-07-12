@@ -96,6 +96,7 @@ class GalleryFragment internal constructor() : Fragment() {
             offscreenPageLimit = 2
             adapter = MediaPagerAdapter(childFragmentManager)
 
+
         }
 
 
@@ -127,12 +128,14 @@ class GalleryFragment internal constructor() : Fragment() {
                     // Set the appropriate intent extra, type, action and flags
                     putExtra(Intent.EXTRA_STREAM, uri)
                     type = mediaType
-                    action = Intent.ACTION_SEND
+                    //action = Intent.ACTION_SEND
+                    action = Intent.ACTION_VIEW
                     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 }
 
                 // Launch the intent letting the user choose which app to share with
                 startActivity(Intent.createChooser(intent, getString(R.string.share_hint)))
+                //startActivity(intent)
             }
         }
 

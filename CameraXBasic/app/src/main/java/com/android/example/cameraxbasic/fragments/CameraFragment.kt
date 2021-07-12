@@ -29,6 +29,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Telephony.Mms.Part.FILENAME
 import android.util.Log
 import android.util.Size
@@ -43,6 +44,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
@@ -147,6 +149,8 @@ class CameraFragment : Fragment() {
         } ?: Unit
     }
 
+
+
     override fun onResume() {
         super.onResume()
         // Make sure that all permissions are still present, since the
@@ -217,6 +221,7 @@ class CameraFragment : Fragment() {
 
         // Determine the output directory
         outputDirectory = MainActivity.getOutputDirectory(requireContext())
+
 
         // Wait for the views to be properly laid out
         viewFinder.post {
@@ -303,7 +308,7 @@ class CameraFragment : Fragment() {
 
         // ImageCapture
         imageCapture = ImageCapture.Builder()
-            .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+            .setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY)
             // We request aspect ratio but no resolution to match preview config, but letting
             // CameraX optimize for whatever specific resolution best fits our use cases
             .setTargetResolution(targetResolution)
@@ -538,12 +543,15 @@ class CameraFragment : Fragment() {
         controls.findViewById<ImageButton>(R.id.photo_view_button).setOnClickListener {
             // Only navigate when the gallery has photos
             if (true == outputDirectory.listFiles()?.isNotEmpty()) {
+
                 Navigation.findNavController(
                     requireActivity(), R.id.fragment_container
                 ).navigate(
                     CameraFragmentDirections
                         .actionCameraToGallery(outputDirectory.absolutePath)
                 )
+
+                //openSysGallery()
             }
         }
     }
@@ -570,12 +578,14 @@ class CameraFragment : Fragment() {
         return cameraProvider?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
     }
 
-    /**
-     * Our custom image analysis class.
-     *
-     * <p>All we need to do is override the function `analyze` with our desired operations. Here,
-     * we compute the average luminosity of the image by looking at the Y plane of the YUV frame.
-     */
+    private fun openSysGallery(){
+        val externalUri =FileProvider.getUriForFile(context!!, getActivity()!!.getPackageName()+".provider", outputDirectory)
+        //val intent = Intent(Intent.ACTION_VIEW, externalUri)
+        //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        val intent =Intent(Intent.ACTION_GET_CONTENT)
+        startActivity(intent)
+    }
+
 
 
     companion object {
@@ -586,6 +596,7 @@ class CameraFragment : Fragment() {
         private const val RATIO_4_3_VALUE = 4.0 / 3.0
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
         private val targetResolution = Size(2448, 3264)
+
 
         /** Helper function used to create a timestamped file */
         private fun createFile(baseFolder: File, format: String, extension: String) =

@@ -26,6 +26,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.android.example.cameraxbasic.R
 import com.bumptech.glide.Glide
+import com.github.chrisbanes.photoview.PhotoView
 import java.io.File
 
 
@@ -36,14 +37,14 @@ class PhotoFragment internal constructor() : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = ImageView(context)
+    ) = PhotoView(context)
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments ?: return
         val resource = args.getString(FILE_NAME_KEY)?.let { File(it) } ?: R.drawable.ic_photo
-        Glide.with(view).load(resource).into(view as ImageView)
+        Glide.with(view).load(resource).into(view as PhotoView)
 
     }
 
