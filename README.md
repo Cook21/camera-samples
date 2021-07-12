@@ -1,5 +1,5 @@
 # Modified CameraXBasic
-This is a modified version of the Google CameraX Sample for my own purpose of use。
+This is a modified version of the Google CameraX Sample
 ## Features
 * Add support for pinch-zoom and tap-to-focus
 * remove ImageAnalyzer
