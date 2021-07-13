@@ -17,6 +17,8 @@
 package com.android.example.cameraxbasic.fragments
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ScaleGestureDetector
@@ -43,8 +45,14 @@ class PhotoFragment internal constructor() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments ?: return
-        val resource = args.getString(FILE_NAME_KEY)?.let { File(it) } ?: R.drawable.ic_photo
-        Glide.with(view).load(resource).into(view as PhotoView)
+        //val resource = args.getString(FILE_NAME_KEY)?.let { File(it) } ?: R.drawable.ic_photo
+        //Glide.with(view).load(resource).into(view as PhotoView)
+        if(args.getString(FILE_NAME_KEY) != null){
+            val imageBitmap = BitmapFactory.decodeFile(args.getString(FILE_NAME_KEY))
+            (view as PhotoView).setImageBitmap(imageBitmap)
+        } else{
+            (view as PhotoView).setImageResource(R.drawable.ic_photo)
+        }
 
     }
 
