@@ -127,8 +127,7 @@ class GalleryFragment internal constructor() : Fragment() {
                     // Set the appropriate intent extra, type, action and flags
                     putExtra(Intent.EXTRA_STREAM, uri)
                     type = mediaType
-                    //action = Intent.ACTION_SEND
-                    action = Intent.ACTION_VIEW
+                    action = Intent.ACTION_SEND
                     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 }
 
