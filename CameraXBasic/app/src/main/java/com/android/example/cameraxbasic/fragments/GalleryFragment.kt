@@ -133,7 +133,6 @@ class GalleryFragment internal constructor() : Fragment() {
 
                 // Launch the intent letting the user choose which app to share with
                 startActivity(Intent.createChooser(intent, getString(R.string.share_hint)))
-                //startActivity(intent)
             }
         }
 
